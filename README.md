@@ -10,6 +10,11 @@ Avant d'installer et d'exécuter ce projet, assurez-vous d'avoir les éléments 
     - Maven 3.x
 
 
+### Modèle de données relationnel
+
+![image](https://github.com/user-attachments/assets/b4ca83e6-ea0b-42f7-86c7-193fe0bb6005)
+
+
 ### Configurez les informations de connexion MySQL dans le fichier application.properties :
 
 Ouvrez le fichier `src/main/resources/application.properties` et configurez les paramètres de votre base de données :
