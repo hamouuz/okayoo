@@ -1,5 +1,6 @@
 package com.gestionfacture.controller;
 
+import com.gestionfacture.dto.request.FactureRequest;
 import com.gestionfacture.entity.Facture;
 import com.gestionfacture.service.FactureService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class FactureController {
     }
 
     @PostMapping
-    public Facture createFacture(@RequestBody Facture facture) {
+    public Facture createFacture(@RequestBody FactureRequest facture) {
         return factureService.createFacture(facture);
     }
 

@@ -19,6 +19,6 @@ public class Client {
     private Date createdAt;
 
     // Relation OneToMany avec Facture
-    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
-    private List<Facture> factures;
+//    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
+//    private List<Facture> factures;
 }

@@ -1,52 +1,41 @@
 package com.gestionfacture.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
-@Data // Utilisation de Lombok pour générer les getters/setters/constructeurs
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Produit {
     @Id
+    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "code_produit", nullable = false)
     private String codeProduit;
+
+    @Column(name = "designation", nullable = false)
     private String designation;
+
+    @Column(name = "prix_unitaire_ht", nullable = false)
     private double prixUnitaireHt;
+
+    @Column(name = "taux_tva", nullable = false)
     private double tauxTva;
 
-    private int quantite;  // Ajout du champ quantité
-
-    // Relation ManyToOne avec Tva
     @ManyToOne
-    @JoinColumn(name = "tva_id")
-    private Tva tva;
+    @JoinColumn(name = "id_facture", nullable = false)
+    @JsonIgnore
+    private Facture facture;
+
+//    @ManyToOne
+//    @JoinColumn(name = "tva_id")
+//    private Tva tva;
 }
-
-
-
-
-
-/*package com.gestionfacture.entity;
-
-import jakarta.persistence.*;
-import lombok.Data;
-
-@Entity
-@Data // Utilisation de Lombok pour générer les getters/setters/constructeurs
-public class Produit {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    private String codeProduit;
-    private String designation;
-    private double prixUnitaireHt;
-    private double tauxTva;
-
-    // Relation ManyToOne avec Tva
-    @ManyToOne
-    @JoinColumn(name = "tva_id")
-    private Tva tva;
-}
-*/
