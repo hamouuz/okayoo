@@ -1,4 +1,7 @@
 package com.gestionfacture.entity;
+import com.gestionfacture.entity.Client;
+import com.gestionfacture.entity.Produit;
+
 
 import jakarta.persistence.*;
 import lombok.Data;
