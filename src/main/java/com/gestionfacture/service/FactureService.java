@@ -44,9 +44,20 @@ public class FactureService {
     Facture initFacture(FactureRequest factureRequest) {
 
         List<Produit> detailProduits = new ArrayList<>();
+        double totalHt = 0;
+        double totalTtc = 0;
 
         for (ProduitRequest produitRequest : factureRequest.getProduits()) {
-            detailProduits.add( produitRepository.save(Produit.builder()
+            // Calculer les montants pour chaque produit
+            double montantHtProduit = produitRequest.getPrixUnitaireHt();
+            double montantTtcProduit = montantHtProduit * (1 + (produitRequest.getTauxTva() / 100));
+
+            // Ajouter les montants aux totaux
+            totalHt += montantHtProduit;
+            totalTtc += montantTtcProduit;
+
+            // Créer et sauvegarder le produit
+            detailProduits.add(produitRepository.save(Produit.builder()
                     .codeProduit(produitRequest.getCodeProduit())
                     .designation(produitRequest.getDesignation())
                     .prixUnitaireHt(produitRequest.getPrixUnitaireHt())
@@ -54,19 +65,67 @@ public class FactureService {
                     .build())
             );
         }
+
+        // Créer la facture et lui assigner les valeurs
         Facture facture = new Facture();
         facture.setRefFacture(factureRequest.getRefFacture());
-        facture.setConditionsReglement(facture.getConditionsReglement());
+        facture.setConditionsReglement(factureRequest.getConditionsReglement());
+
+        // Assigner les dates de facturation et d'échéance
+        facture.setDateFacturation(LocalDate.now());  // Utilise la date actuelle
+        facture.setDateEcheance(LocalDate.now().plusMonths(1)); // Exemple, à adapter
+
+        // Assigner les totaux calculés
+        facture.setTotalHt(totalHt);
+        facture.setTotalTtc(totalTtc);
+
+        // Assigner les produits
         facture.setProduits(detailProduits);
+
         return facture;
     }
 
     public Facture createFacture(FactureRequest factureRequest) {
         log.info("factureRequest   {}", factureRequest);
         Facture facture = initFacture(factureRequest);
+
+        // Enregistrement de la facture
         facture = factureRepository.save(facture);
+
+        // Logs pour vérifier les valeurs calculées
+        log.info("Total HT : {}, Total TTC : {}", facture.getTotalHt(), facture.getTotalTtc());
+        log.info("Date de facturation : {}, Date d'échéance : {}", facture.getDateFacturation(), facture.getDateEcheance());
+
         return facture;
     }
+
+
+//    Facture initFacture(FactureRequest factureRequest) {
+//
+//        List<Produit> detailProduits = new ArrayList<>();
+//
+//        for (ProduitRequest produitRequest : factureRequest.getProduits()) {
+//            detailProduits.add( produitRepository.save(Produit.builder()
+//                    .codeProduit(produitRequest.getCodeProduit())
+//                    .designation(produitRequest.getDesignation())
+//                    .prixUnitaireHt(produitRequest.getPrixUnitaireHt())
+//                    .tauxTva(produitRequest.getTauxTva())
+//                    .build())
+//            );
+//        }
+//        Facture facture = new Facture();
+//        facture.setRefFacture(factureRequest.getRefFacture());
+//        facture.setConditionsReglement(facture.getConditionsReglement());
+//        facture.setProduits(detailProduits);
+//        return facture;
+//    }
+//
+//    public Facture createFacture(FactureRequest factureRequest) {
+//        log.info("factureRequest   {}", factureRequest);
+//        Facture facture = initFacture(factureRequest);
+//        facture = factureRepository.save(facture);
+//        return facture;
+//    }
 
 
 
