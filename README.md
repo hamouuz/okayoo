@@ -35,7 +35,7 @@ mvn clean install
 Lancez l'application Spring Boot :
 
 ```
-mvn spring-boot:run
+mvn compile
 ```
 
 Accès à la Documentation de l'API
