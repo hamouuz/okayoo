@@ -9,5 +9,6 @@ public class ProduitRequest {
     private String designation;
     private double prixUnitaireHt;
     private double tauxTva;
+    private int quantite;  // Ajoute cet attribut
 //    private Tva tva;
 }

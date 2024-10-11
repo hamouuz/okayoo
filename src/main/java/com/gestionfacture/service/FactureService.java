@@ -48,15 +48,15 @@ public class FactureService {
         double totalTtc = 0;
 
         for (ProduitRequest produitRequest : factureRequest.getProduits()) {
-            // Calculer les montants pour chaque produit
-            double montantHtProduit = produitRequest.getPrixUnitaireHt();
+            // Calculer les montants pour chaque produit en tenant compte de la quantité
+            double montantHtProduit = produitRequest.getPrixUnitaireHt() * produitRequest.getQuantite();
             double montantTtcProduit = montantHtProduit * (1 + (produitRequest.getTauxTva() / 100));
 
             // Ajouter les montants aux totaux
             totalHt += montantHtProduit;
             totalTtc += montantTtcProduit;
 
-            // Créer et sauvegarder le produit
+            // Créer et sauvegarder le produit en tenant compte de la quantité
             detailProduits.add(produitRepository.save(Produit.builder()
                     .codeProduit(produitRequest.getCodeProduit())
                     .designation(produitRequest.getDesignation())
@@ -98,6 +98,7 @@ public class FactureService {
 
         return facture;
     }
+
 
 
 //    Facture initFacture(FactureRequest factureRequest) {
