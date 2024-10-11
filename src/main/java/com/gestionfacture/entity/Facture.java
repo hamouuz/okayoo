@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;  // Import nécessaire pour List
 
+
+
 @Entity
 @Data
 @Table(name = "facture")
